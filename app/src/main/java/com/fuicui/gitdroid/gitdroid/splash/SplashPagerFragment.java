@@ -1,5 +1,6 @@
 package com.fuicui.gitdroid.gitdroid.splash;
 
+import android.animation.ArgbEvaluator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 
 import com.fuicui.gitdroid.gitdroid.R;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.relex.circleindicator.CircleIndicator;
@@ -27,7 +29,11 @@ public class SplashPagerFragment extends Fragment {
     @BindView(R.id.layoutPhone) FrameLayout layoutPhone;
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.indicator) CircleIndicator indicator;
-    @BindView(R.id.content) FrameLayout content;
+    @BindView(R.id.content) FrameLayout frameLayout;
+
+    @BindColor(R.color.colorGreen) int colorGreen;
+    @BindColor(R.color.colorRed) int colorRed;
+    @BindColor(R.color.colorYellow) int colorYellow;
 
     private SplashPagerAdapter adapter;
 
@@ -43,5 +49,35 @@ public class SplashPagerFragment extends Fragment {
         viewPager.setAdapter(adapter);
         indicator.setViewPager(viewPager);
 
+        //ViewPager的监听
+        viewPager.addOnPageChangeListener(pageColorListener);
+
     }
+
+    //设置的ViewPager颜色的监听
+    private ViewPager.OnPageChangeListener pageColorListener = new ViewPager.OnPageChangeListener() {
+
+        ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+
+        @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (position == 0) {
+                int color = (int) argbEvaluator.evaluate(positionOffset, colorGreen, colorRed);
+                frameLayout.setBackgroundColor(color);
+                return;
+            }
+            if (position==1){
+                int color = (int) argbEvaluator.evaluate(positionOffset, colorRed, colorYellow);
+                frameLayout.setBackgroundColor(color);
+                return;
+            }
+        }
+
+        @Override public void onPageSelected(int position) {
+
+        }
+
+        @Override public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 }

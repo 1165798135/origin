@@ -15,12 +15,14 @@ import com.fuicui.gitdroid.gitdroid.splash.pager.Pager2;
  */
 public class SplashPagerAdapter extends PagerAdapter{
 
+    //添加数据View
     private View[] views;
 
     public SplashPagerAdapter(Context context) {
         views = new View[]{new Pager0(context),new Pager1(context),new Pager2(context)};
     }
 
+    //
     public View getView(int position){
         return views[position];
     }
