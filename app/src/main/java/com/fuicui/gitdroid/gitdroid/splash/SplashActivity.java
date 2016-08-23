@@ -3,11 +3,14 @@ package com.fuicui.gitdroid.gitdroid.splash;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 
 import com.fuicui.gitdroid.gitdroid.MainActivity;
 import com.fuicui.gitdroid.gitdroid.R;
+
+import butterknife.BindColor;
+import butterknife.BindString;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 作者：yuanchao on 2016/8/23 0023 11:20
@@ -15,22 +18,28 @@ import com.fuicui.gitdroid.gitdroid.R;
  */
 public class SplashActivity extends AppCompatActivity{
 
+//    @BindView(R.id.btnEnter) Button mBtnEnter;
+//    @BindView(R.id.btnLogin) Button mBtnLogin;
+
+    @BindString(R.string.app_name) String appName;
+
+    @BindColor(R.color.colorAccent) int color;
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
 
-        Button enter = (Button) findViewById(R.id.btnEnter);
-        Button login = (Button) findViewById(R.id.btnLogin);
-        enter.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Intent intent = new Intent(SplashActivity.this,MainActivity.class);
-                SplashActivity.this.startActivity(intent);
-            }
-        });
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                //TODO
-            }
-        });
+
     }
+
+    @OnClick(R.id.btnLogin) void login(){
+        //TODO 登录跳转
+    }
+
+    @OnClick(R.id.btnEnter) void enter(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }
