@@ -27,8 +27,10 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     // gif
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.16'
-    // pager title
+
+    // ViewPager 进行切换的时候
     compile 'me.relex:circleindicator:1.2.1@aar'
+
     // 下拉刷新
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     // ButterKnife
