@@ -98,7 +98,7 @@ public class SplashPagerFragment extends Fragment {
                 layoutPhone.setScaleX(scale);
 
                 //手机移动的效果
-                int scroll = (int) ((positionOffset-1)*360);
+                int scroll = (int) ((positionOffset-1)*1000);
                 layoutPhone.setTranslationX(scroll);
 
                 //手机内字体图片透明度的改变
