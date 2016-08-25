@@ -11,6 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fuicui.gitdroid.gitdroid.R;
+import com.fuicui.gitdroid.gitdroid.components.FooterView;
+import com.mugen.Mugen;
+import com.mugen.MugenCallbacks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +29,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HotRepoListFragment extends Fragment implements RepoPtrView {
+public class HotRepoListFragment extends Fragment implements RepoListView {
 
 
     @BindView(R.id.lvRepos) ListView lvRepos;
@@ -38,6 +41,7 @@ public class HotRepoListFragment extends Fragment implements RepoPtrView {
 
     private RepoListPresenter presenter;
     private ArrayAdapter<String> adapter;
+    private FooterView footerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,11 +79,32 @@ public class HotRepoListFragment extends Fragment implements RepoPtrView {
          * 当ListView滑动到最后一条再继续滑动，触发加载
          * 加载完成，移除添加的加载的布局
          */
-        initLOadMore();
+        initLoadMore();
     }
 
-    private void initLOadMore() {
+    private void initLoadMore() {
+        footerView = new FooterView(getContext());
+        /**
+         * 实现上拉加载监听
+         */
+        Mugen.with(lvRepos, new MugenCallbacks() {
 
+            //当ListView滑动到最后，触发这个方法进行加载
+            @Override public void onLoadMore() {
+                //上拉加载数据业务的完成
+                presenter.loadMore();
+            }
+
+            //是不是正在加载
+            @Override public boolean isLoading() {
+                return lvRepos.getFooterViewsCount()>0 && footerView.isLoading();
+            }
+
+            //是不是加载完了数据
+            @Override public boolean hasLoadedAllItems() {
+                return lvRepos.getFooterViewsCount()>0 && footerView.isComplete();
+            }
+        }).start();
     }
 
     private void initPullToRefresh() {
@@ -143,5 +168,36 @@ public class HotRepoListFragment extends Fragment implements RepoPtrView {
         ptrFrameLayout.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);
+    }
+
+    //上拉加载视图分析
+    /**
+     1. 显示加载视图
+     2. 隐藏加载视图
+     3. 加载失败视图
+     4. 加载完成，拿到数据进行视图更新
+     */
+
+    @Override public void showLoadingView() {
+        if (lvRepos.getFooterViewsCount()==0){
+            lvRepos.addFooterView(footerView);
+        }
+        footerView.showLoading();
+    }
+
+    @Override public void hideLoadView() {
+        lvRepos.removeFooterView(footerView);
+    }
+
+    @Override public void showLoadError(String msg) {
+        if (lvRepos.getFooterViewsCount()==0){
+            lvRepos.addFooterView(footerView);
+        }
+        footerView.showError();
+    }
+
+    @Override public void addLoadData(List<String> list) {
+        data.addAll(list);
+        adapter.notifyDataSetChanged();
     }
 }

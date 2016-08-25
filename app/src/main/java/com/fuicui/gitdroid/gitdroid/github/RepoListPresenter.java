@@ -10,17 +10,26 @@ import java.util.ArrayList;
  * 邮箱：yuanchao@feicuiedu.com
  */
 public class RepoListPresenter {
-    private RepoPtrView repoPtrView;
 
-    public RepoListPresenter(RepoPtrView repoPtrView) {
+    private RepoListView repoListView;
 
-        this.repoPtrView = repoPtrView;
+    private int count = 0;
+
+    public RepoListPresenter(RepoListView repoListView) {
+
+        this.repoListView = repoListView;
     }
 
     public void refresh(){
         //显示刷新
-        repoPtrView.showContentView();
+        repoListView.showContentView();
         new Refresh().execute();
+    }
+
+    //加载更多的方法
+    public void loadMore(){
+        repoListView.showLoadingView();
+        new LoadMore().execute();
     }
 
 
@@ -38,11 +47,32 @@ public class RepoListPresenter {
             super.onPostExecute(aVoid);
             ArrayList<String> list = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
-                list.add("刷新出来的数据"+i);
+                list.add("刷新出来的数据"+(count++));
             }
-            repoPtrView.refreshData(list);
+            repoListView.refreshData(list);
             //停止刷新
-            repoPtrView.stopRefresh();
+            repoListView.stopRefresh();
+        }
+    }
+
+    //    上拉加载数据
+    class LoadMore extends AsyncTask<Void,Void,Void> {
+        @Override protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            ArrayList<String> list = new ArrayList<>();
+            for (int i = 0; i < 20; i++) {
+                list.add("加载出来的数据"+(count++));
+            }
+            repoListView.addLoadData(list);
+            repoListView.hideLoadView();
         }
     }
 }

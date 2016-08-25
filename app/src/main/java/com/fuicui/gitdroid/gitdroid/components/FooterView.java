@@ -53,9 +53,12 @@ public class FooterView extends FrameLayout {
      * 4.是不是加载完成
      */
 
+//    是不是正在加载
     public boolean isLoading() {
         return state==STATE_LOADING;
     }
+
+//    是不是加载完成
     public boolean isComplete(){
         return state==STATE_COMPLETE;
     }
