@@ -1,4 +1,4 @@
-package com.fuicui.gitdroid.gitdroid.github;
+package com.fuicui.gitdroid.gitdroid.github.hotuser;
 
 
 import android.os.Bundle;

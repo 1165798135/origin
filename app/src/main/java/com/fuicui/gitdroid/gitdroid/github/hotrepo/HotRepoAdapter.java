@@ -1,8 +1,10 @@
-package com.fuicui.gitdroid.gitdroid.github;
+package com.fuicui.gitdroid.gitdroid.github.hotrepo;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.HotRepoListFragment;
 
 /**
  * 作者：yuanchao on 2016/8/24 0024 11:36

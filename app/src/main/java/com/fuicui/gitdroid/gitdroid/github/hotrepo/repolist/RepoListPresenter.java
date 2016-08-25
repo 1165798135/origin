@@ -1,6 +1,8 @@
-package com.fuicui.gitdroid.gitdroid.github;
+package com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist;
 
 import android.os.AsyncTask;
+
+import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.view.RepoListView;
 
 import java.util.ArrayList;
 

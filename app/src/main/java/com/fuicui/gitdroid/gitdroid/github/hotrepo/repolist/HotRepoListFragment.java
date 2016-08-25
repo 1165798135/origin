@@ -1,4 +1,4 @@
-package com.fuicui.gitdroid.gitdroid.github;
+package com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist;
 
 
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.fuicui.gitdroid.gitdroid.R;
 import com.fuicui.gitdroid.gitdroid.components.FooterView;
+import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.view.RepoListView;
 import com.mugen.Mugen;
 import com.mugen.MugenCallbacks;
 

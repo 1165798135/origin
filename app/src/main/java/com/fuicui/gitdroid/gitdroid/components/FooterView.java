@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
  */
 public class FooterView extends FrameLayout {
 
+
     private static final int STATE_LOADING = 0;
     private static final int STATE_ERROR = 1;
     private static final int STATE_COMPLETE = 2;

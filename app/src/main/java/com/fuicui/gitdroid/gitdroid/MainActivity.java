@@ -12,8 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.fuicui.gitdroid.gitdroid.github.HotRepoFragment;
-import com.fuicui.gitdroid.gitdroid.github.HotUserFragment;
+import com.fuicui.gitdroid.gitdroid.github.hotrepo.HotRepoFragment;
+import com.fuicui.gitdroid.gitdroid.github.hotuser.HotUserFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.fuicui.gitdroid.gitdroid.github;
+package com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.view;
 
 /**
  * 作者：yuanchao on 2016/8/25 0025 11:35
