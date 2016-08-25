@@ -60,7 +60,6 @@ public class HotRepoListFragment extends Fragment implements RepoPtrView {
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,data);
         lvRepos.setAdapter(adapter);
 
-        initPullToRefresh();
         if (adapter.getCount()==0){
             ptrFrameLayout.postDelayed(new Runnable() {
                 @Override public void run() {
@@ -68,6 +67,19 @@ public class HotRepoListFragment extends Fragment implements RepoPtrView {
                 }
             },200);
         }
+        //刷新
+        initPullToRefresh();
+
+        //上拉加载
+        /**
+         * 当ListView滑动到最后一条再继续滑动，触发加载
+         * 加载完成，移除添加的加载的布局
+         */
+        initLOadMore();
+    }
+
+    private void initLOadMore() {
+
     }
 
     private void initPullToRefresh() {

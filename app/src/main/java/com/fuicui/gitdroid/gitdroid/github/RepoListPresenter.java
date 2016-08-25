@@ -3,7 +3,6 @@ package com.fuicui.gitdroid.gitdroid.github;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 业务类，主要完成数据加载，通知视图进行改变
@@ -12,12 +11,10 @@ import java.util.List;
  */
 public class RepoListPresenter {
     private RepoPtrView repoPtrView;
-    private List<String> list;
 
     public RepoListPresenter(RepoPtrView repoPtrView) {
 
         this.repoPtrView = repoPtrView;
-        list = new ArrayList<>();
     }
 
     public void refresh(){
@@ -26,21 +23,20 @@ public class RepoListPresenter {
         new Refresh().execute();
     }
 
+
+//    下拉刷新数据加载
     class Refresh extends AsyncTask<Void,Void,Void> {
-
         @Override protected Void doInBackground(Void... params) {
-
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
-
         @Override protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            ArrayList<String> list = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
                 list.add("刷新出来的数据"+i);
             }
