@@ -3,6 +3,7 @@ package com.fuicui.gitdroid.gitdroid.network;
 import com.fuicui.gitdroid.gitdroid.login.model.AccessToken;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -35,6 +36,9 @@ public interface GithubApi {
     @FormUrlEncoded
     @POST("https://github.com/login/oauth/access_token")
     @Headers("Accept: application/json")
-    Call<AccessToken> getOAuthToken();
+    Call<AccessToken> getOAuthToken(
+            @Field("client_id") String clientId,
+            @Field("client_secret")String clientSecret,
+            @Field("code") String code);
 
 }

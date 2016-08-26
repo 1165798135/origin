@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.fuicui.gitdroid.gitdroid.R;
+import com.fuicui.gitdroid.gitdroid.commons.LogUtils;
 import com.fuicui.gitdroid.gitdroid.network.GithubApi;
 
 import butterknife.BindView;
@@ -30,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.webView) WebView webView;
     @BindView(R.id.gifImageView) GifImageView gifImageView;
 
+    private LoginPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override public void onContentChanged() {
         super.onContentChanged();
         ButterKnife.bind(this);
+        presenter = new LoginPresenter();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initWebView();
@@ -78,12 +82,12 @@ public class LoginActivity extends AppCompatActivity {
             Uri uri = Uri.parse(url);
             if (GithubApi.CALL_BACK.equals(uri.getScheme())){
                 String code = uri.getQueryParameter("code");
-
+                LogUtils.d("Code"+code);
                 //得到临时授权码，去执行操作来获取Token
                 //TODO 业务来实现获得Token
+                presenter.login(code);
                 return true;
             }
-
             return super.shouldOverrideUrlLoading(view, url);
         }
     };

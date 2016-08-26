@@ -1,14 +1,18 @@
 package com.fuicui.gitdroid.gitdroid.network;
 
+import com.fuicui.gitdroid.gitdroid.login.model.AccessToken;
+
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
 
 /**
  * 作者：yuanchao on 2016/8/26 0026 09:33
  * 邮箱：yuanchao@feicuiedu.com
  */
-public class GithubClient {
+public class GithubClient implements GithubApi{
 
     private static GithubClient githubClient;
     private final GithubApi githubApi;
@@ -37,7 +41,7 @@ public class GithubClient {
         githubApi = retrofit.create(GithubApi.class);
     }
 
-    public GithubApi getGithubApi(){
-        return githubApi;
+    @Override public Call<AccessToken> getOAuthToken(@Field("client_id") String clientId, @Field("client_secret") String clientSecret, @Field("code") String code) {
+        return githubApi.getOAuthToken(clientId, clientSecret, code);
     }
 }
