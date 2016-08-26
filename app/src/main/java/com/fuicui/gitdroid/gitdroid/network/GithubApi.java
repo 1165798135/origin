@@ -1,10 +1,12 @@
 package com.fuicui.gitdroid.gitdroid.network;
 
+import com.fuicui.gitdroid.gitdroid.login.User;
 import com.fuicui.gitdroid.gitdroid.login.model.AccessToken;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -40,5 +42,12 @@ public interface GithubApi {
             @Field("client_id") String clientId,
             @Field("client_secret")String clientSecret,
             @Field("code") String code);
+
+    /**
+     * 使用Token获取用户信息
+     * @return
+     */
+    @GET("user")
+    Call<User> getUser();
 
 }

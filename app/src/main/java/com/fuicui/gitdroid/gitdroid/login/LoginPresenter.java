@@ -16,6 +16,7 @@ import retrofit2.Response;
 public class LoginPresenter {
 
     private Call<AccessToken> tokenCall;
+    private Call<User> userCall;
 
     /**
      * 登录，完成的工作：使用code 换取Token，再换取用户信息
@@ -38,17 +39,35 @@ public class LoginPresenter {
     private Callback<AccessToken> tokenCallback = new Callback<AccessToken>() {
         @Override public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
             //成功返回
-            if (response.isSuccessful()){
-                LogUtils.d("token:"+response.body().getAccessToken());
-            }else {
-                LogUtils.d("token 没有成功返回");
-            }
+            AccessToken accessToken = response.body();
+            String token = accessToken.getAccessToken();
+            //保存用户Token
+            UserRepo.setAccessToken(token);
 
+            //使用Token来获取用户信息
+            if (userCall!=null){
+                userCall.cancel();
+            }
+            userCall = GithubClient.getInstance().getUser();
+            userCall.enqueue(userCallback);
         }
 
         @Override public void onFailure(Call<AccessToken> call, Throwable t) {
             //请求失败
             LogUtils.d(t.getMessage());
+        }
+    };
+
+    //请求用户信息
+    private Callback<User> userCallback = new Callback<User>() {
+        @Override public void onResponse(Call<User> call, Response<User> response) {
+            //请求完成
+            LogUtils.d(response.body().toString());
+        }
+
+        @Override public void onFailure(Call<User> call, Throwable t) {
+            //请求失败
+            LogUtils.d("请求失败"+t.getMessage());
         }
     };
 }

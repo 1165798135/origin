@@ -1,5 +1,6 @@
 package com.fuicui.gitdroid.gitdroid.network;
 
+import com.fuicui.gitdroid.gitdroid.login.User;
 import com.fuicui.gitdroid.gitdroid.login.model.AccessToken;
 
 import okhttp3.OkHttpClient;
@@ -27,7 +28,8 @@ public class GithubClient implements GithubApi{
     private GithubClient(){
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                //添加拦截器
+                //添加Token拦截器
+                .addInterceptor(new TokenInterceptor())
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -43,5 +45,9 @@ public class GithubClient implements GithubApi{
 
     @Override public Call<AccessToken> getOAuthToken(@Field("client_id") String clientId, @Field("client_secret") String clientSecret, @Field("code") String code) {
         return githubApi.getOAuthToken(clientId, clientSecret, code);
+    }
+
+    @Override public Call<User> getUser() {
+        return githubApi.getUser();
     }
 }
