@@ -1,6 +1,6 @@
 package com.fuicui.gitdroid.gitdroid.network;
 
-import com.fuicui.gitdroid.gitdroid.login.User;
+import com.fuicui.gitdroid.gitdroid.login.model.User;
 import com.fuicui.gitdroid.gitdroid.login.model.AccessToken;
 
 import retrofit2.Call;

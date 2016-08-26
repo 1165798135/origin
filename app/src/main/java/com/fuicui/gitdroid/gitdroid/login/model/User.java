@@ -1,4 +1,4 @@
-package com.fuicui.gitdroid.gitdroid.login;
+package com.fuicui.gitdroid.gitdroid.login.model;
 
 import com.google.gson.annotations.SerializedName;
 

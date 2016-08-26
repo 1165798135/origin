@@ -1,6 +1,8 @@
 package com.fuicui.gitdroid.gitdroid.login;
 
 import com.fuicui.gitdroid.gitdroid.login.model.AccessToken;
+import com.fuicui.gitdroid.gitdroid.login.model.User;
+import com.fuicui.gitdroid.gitdroid.login.model.UserRepo;
 import com.fuicui.gitdroid.gitdroid.network.GithubApi;
 import com.fuicui.gitdroid.gitdroid.network.GithubClient;
 
@@ -29,6 +31,7 @@ public class LoginPresenter {
      * @param code
      */
     public void login(String code) {
+        loginView.showProgress();
         if (tokenCall != null) {
             tokenCall.cancel();
         }

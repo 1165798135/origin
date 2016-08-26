@@ -1,4 +1,4 @@
-package com.fuicui.gitdroid.gitdroid.login;
+package com.fuicui.gitdroid.gitdroid.login.model;
 
 /**
  * 作者：yuanchao on 2016/8/26 0026 15:17

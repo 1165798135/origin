@@ -1,6 +1,6 @@
 package com.fuicui.gitdroid.gitdroid.network;
 
-import com.fuicui.gitdroid.gitdroid.login.UserRepo;
+import com.fuicui.gitdroid.gitdroid.login.model.UserRepo;
 
 import java.io.IOException;
 

@@ -19,7 +19,7 @@ import com.fuicui.gitdroid.gitdroid.commons.ActivityUtils;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.HotRepoFragment;
 import com.fuicui.gitdroid.gitdroid.github.hotuser.HotUserFragment;
 import com.fuicui.gitdroid.gitdroid.login.LoginActivity;
-import com.fuicui.gitdroid.gitdroid.login.UserRepo;
+import com.fuicui.gitdroid.gitdroid.login.model.UserRepo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.BindView;
