@@ -36,7 +36,7 @@ public class GithubClient implements GithubApi{
                 .baseUrl("https://api.github.com/")
                 .client(okHttpClient)
 
-                //Retrofit 强大的功能：Gson转换器----将我们的数据请求的结果自动进行json转换，转换为我们需要的类型
+                //Retrofit 强大的功能：Gson转换器----将我们的数据请求的结果进行json转换，转换为我们需要的类型,例如类或者集合
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -5,7 +5,7 @@ package com.fuicui.gitdroid.gitdroid.login;
  * 邮箱：yuanchao@feicuiedu.com
  */
 
-//主要是为了存储我们的Token值以及请求得到的个人信息
+//主要是为了暂时存储我们的Token值以及请求得到的个人信息
 public class UserRepo {
 
     private UserRepo(){}

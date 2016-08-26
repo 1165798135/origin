@@ -1,6 +1,5 @@
 package com.fuicui.gitdroid.gitdroid.login;
 
-import com.fuicui.gitdroid.gitdroid.commons.LogUtils;
 import com.fuicui.gitdroid.gitdroid.login.model.AccessToken;
 import com.fuicui.gitdroid.gitdroid.network.GithubApi;
 import com.fuicui.gitdroid.gitdroid.network.GithubClient;
@@ -17,6 +16,12 @@ public class LoginPresenter {
 
     private Call<AccessToken> tokenCall;
     private Call<User> userCall;
+
+    private LoginView loginView;
+
+    public LoginPresenter(LoginView loginView) {
+        this.loginView = loginView;
+    }
 
     /**
      * 登录，完成的工作：使用code 换取Token，再换取用户信息
@@ -54,7 +59,11 @@ public class LoginPresenter {
 
         @Override public void onFailure(Call<AccessToken> call, Throwable t) {
             //请求失败
-            LogUtils.d(t.getMessage());
+            loginView.showMessage(t.getMessage());
+            loginView.showProgress();
+            loginView.resetWebView();
+
+
         }
     };
 
@@ -62,12 +71,20 @@ public class LoginPresenter {
     private Callback<User> userCallback = new Callback<User>() {
         @Override public void onResponse(Call<User> call, Response<User> response) {
             //请求完成
-            LogUtils.d(response.body().toString());
+            //存储user
+            User user = response.body();
+            UserRepo.setUser(user);
+
+            loginView.showMessage("登陆成功");
+            loginView.gotoMainActivity();
+
         }
 
         @Override public void onFailure(Call<User> call, Throwable t) {
             //请求失败
-            LogUtils.d("请求失败"+t.getMessage());
+            loginView.showMessage(t.getMessage());
+            loginView.showProgress();
+            loginView.resetWebView();
         }
     };
 }
