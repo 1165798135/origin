@@ -42,7 +42,7 @@ public class HotRepoFragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
-        adapter = new HotRepoAdapter(getChildFragmentManager());
+        adapter = new HotRepoAdapter(getChildFragmentManager(),getContext());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
