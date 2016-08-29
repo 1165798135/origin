@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.fuicui.gitdroid.gitdroid.components.FooterView;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.Language;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.model.Repo;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.view.RepoListView;
+import com.fuicui.gitdroid.gitdroid.github.repoinfo.RepoInfoActivity;
 import com.mugen.Mugen;
 import com.mugen.MugenCallbacks;
 
@@ -76,6 +78,14 @@ public class HotRepoListFragment extends Fragment implements RepoListView {
 
         adapter = new RepoListAdapter();
         lvRepos.setAdapter(adapter);
+
+        lvRepos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //点击某一条跳转到详情页
+                Repo repo = (Repo) adapter.getItem(position);
+                RepoInfoActivity.open(getContext(),repo);
+            }
+        });
 
         if (adapter.getCount()==0){
             ptrFrameLayout.postDelayed(new Runnable() {
