@@ -23,7 +23,7 @@ public class HotRepoAdapter extends FragmentPagerAdapter {
     }
 
     @Override public Fragment getItem(int position) {
-        return new HotRepoListFragment();
+        return HotRepoListFragment.getInstance(languages.get(position));
     }
 
     @Override public int getCount() {

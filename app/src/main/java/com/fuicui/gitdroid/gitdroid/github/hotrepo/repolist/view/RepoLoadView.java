@@ -1,5 +1,7 @@
 package com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.view;
 
+import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.model.Repo;
+
 import java.util.List;
 
 /**
@@ -24,5 +26,5 @@ public interface RepoLoadView {
     void showLoadError(String msg);
 
 //    加载完成，拿到数据进行视图更新
-    void addLoadData(List<String> list);
+    void addLoadData(List<Repo> list);
 }

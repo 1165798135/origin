@@ -9,13 +9,14 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 作者：yuanchao on 2016/8/29 0029 09:53
  * 邮箱：yuanchao@feicuiedu.com
  */
-public class Language {
+public class Language implements Serializable{
 
     /**
      * {
