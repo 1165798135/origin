@@ -1,5 +1,6 @@
 package com.fuicui.gitdroid.gitdroid.network;
 
+import com.fuicui.gitdroid.gitdroid.commons.LoggingInterceptor;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.model.RepoResult;
 import com.fuicui.gitdroid.gitdroid.github.hotuser.HotUserResult;
 import com.fuicui.gitdroid.gitdroid.github.repoinfo.RepoContentResult;
@@ -38,6 +39,7 @@ public class GithubClient implements GithubApi{
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 //添加Token拦截器
                 .addInterceptor(new TokenInterceptor())
+                .addInterceptor(new LoggingInterceptor())
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

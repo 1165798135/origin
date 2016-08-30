@@ -29,6 +29,7 @@ public class RepoListPresenter {
         this.language = language;
     }
 
+    //刷新的业务
     public void refresh() {
         //显示刷新
         repoListView.showContentView();

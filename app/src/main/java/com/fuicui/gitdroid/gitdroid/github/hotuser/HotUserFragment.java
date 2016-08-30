@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import com.fuicui.gitdroid.gitdroid.R;
 import com.fuicui.gitdroid.gitdroid.commons.ActivityUtils;
+import com.fuicui.gitdroid.gitdroid.components.FooterView;
 import com.fuicui.gitdroid.gitdroid.login.model.User;
+import com.mugen.Mugen;
+import com.mugen.MugenCallbacks;
 
 import java.util.List;
 
@@ -27,7 +30,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
  * 1.给ListView设置适配器
  */
 
-public class HotUserFragment extends Fragment implements HotUserPresenter.HotUserView{
+public class HotUserFragment extends Fragment implements HotUserPresenter.HotUserView {
 
 
     @BindView(R.id.lvRepos)
@@ -42,6 +45,7 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
 
     private ActivityUtils activityUtils;
     private HotUserPresenter presenter;
+    private FooterView footerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,18 +64,44 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
         adapter = new HotUserAdapter();
         lvUsers.setAdapter(adapter);
 
+        //下拉刷新的方法
         initPullToRefresh();
 
+        //上拉加载的方法
+        initLoadMore();
+
         //如果没有数据，就自动刷新
-        if (adapter.getCount()<=0){
+        if (adapter.getCount() <= 0) {
             ptrClassicFrameLayout.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ptrClassicFrameLayout.autoRefresh();
                 }
-            },200);
+            }, 200);
         }
 
+    }
+
+    //加载的基本配置
+    private void initLoadMore() {
+        footerView = new FooterView(getContext());
+        Mugen.with(lvUsers, new MugenCallbacks() {
+            @Override
+            public void onLoadMore() {
+                presenter.loadMore();
+            }
+
+            //判断是不是正在加载
+            @Override
+            public boolean isLoading() {
+                return lvUsers.getFooterViewsCount() > 0 && footerView.isLoading();
+            }
+
+            @Override
+            public boolean hasLoadedAllItems() {
+                return lvUsers.getFooterViewsCount() > 0 && footerView.isComplete();
+            }
+        }).start();
     }
 
     //刷新的基本配置
@@ -83,7 +113,6 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
         ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                //TODO 要去做业务完成数据加载
                 presenter.refresh();
             }
         });
@@ -98,6 +127,10 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
         ptrClassicFrameLayout.setBackgroundResource(R.color.colorRefresh);
     }
 
+
+    /**
+     * 下拉刷新的视图
+     */
     @Override
     public void showRefreshView() {
         ptrClassicFrameLayout.setVisibility(View.VISIBLE);
@@ -133,5 +166,26 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
         ptrClassicFrameLayout.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         errorView.setVisibility(View.GONE);
+    }
+
+    /**
+     * 主要是上拉加载的视图
+     */
+    @Override
+    public void showLoadView() {
+        if (lvUsers.getFooterViewsCount()==0){
+            lvUsers.addFooterView(footerView);
+        }
+        footerView.showLoading();
+    }
+
+    @Override
+    public void hideLoadView() {
+        lvUsers.removeFooterView(footerView);
+    }
+
+    @Override
+    public void addLoadData(List<User> list) {
+        adapter.addAll(list);
     }
 }
