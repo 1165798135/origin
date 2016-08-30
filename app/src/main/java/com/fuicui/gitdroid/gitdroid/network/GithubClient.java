@@ -1,6 +1,7 @@
 package com.fuicui.gitdroid.gitdroid.network;
 
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.model.RepoResult;
+import com.fuicui.gitdroid.gitdroid.github.hotuser.HotUserResult;
 import com.fuicui.gitdroid.gitdroid.github.repoinfo.RepoContentResult;
 import com.fuicui.gitdroid.gitdroid.login.model.AccessToken;
 import com.fuicui.gitdroid.gitdroid.login.model.User;
@@ -68,5 +69,10 @@ public class GithubClient implements GithubApi{
 
     @Override public Call<ResponseBody> markDown(@Body RequestBody body) {
         return githubApi.markDown(body);
+    }
+
+    @Override
+    public Call<HotUserResult> searchUsers(@Query("q") String query, @Query("page") int pageId) {
+        return githubApi.searchUsers(query, pageId);
     }
 }

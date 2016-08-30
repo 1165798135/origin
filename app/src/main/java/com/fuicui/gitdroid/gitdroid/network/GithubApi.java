@@ -1,6 +1,7 @@
 package com.fuicui.gitdroid.gitdroid.network;
 
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.model.RepoResult;
+import com.fuicui.gitdroid.gitdroid.github.hotuser.HotUserResult;
 import com.fuicui.gitdroid.gitdroid.github.repoinfo.RepoContentResult;
 import com.fuicui.gitdroid.gitdroid.login.model.AccessToken;
 import com.fuicui.gitdroid.gitdroid.login.model.User;
@@ -86,5 +87,20 @@ public interface GithubApi {
     @Headers({"Content-Type:text/plain"})
     @POST("/markdown/raw")
     Call<ResponseBody> markDown(@Body RequestBody body);
+
+
+//    https://api.github.com/search/users?q=tom+repos:>42+followers:>1000
+//    https://api.github.com/search/users?q=repos:>42+followers:>1000
+//    https://api.github.com/search/users?q=followers:>1000
+//    https://api.github.com/search/users?q=repos:>42
+
+    /**
+     * 获取热门开发者
+     * @param query  查询条件
+     * @param pageId 查询页数
+     * @return
+     */
+    @GET("/search/users")
+    Call<HotUserResult> searchUsers(@Query("q")String query,@Query("page")int pageId);
 
 }
