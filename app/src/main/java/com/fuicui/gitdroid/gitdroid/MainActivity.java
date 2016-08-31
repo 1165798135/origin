@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.fuicui.gitdroid.gitdroid.commons.ActivityUtils;
+import com.fuicui.gitdroid.gitdroid.favorite.FavoriteFragment;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.HotRepoFragment;
 import com.fuicui.gitdroid.gitdroid.github.hotuser.HotUserFragment;
 import com.fuicui.gitdroid.gitdroid.login.LoginActivity;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // 热门仓库Fragment
     private HotRepoFragment hotRepoFragment;
     private HotUserFragment hotUserFragment;
+    private FavoriteFragment favoriteFragment;
     private Button btnLogin;
     private ImageView ivIcon;
 
@@ -123,7 +125,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             // 我的收藏
             case R.id.arsenal_my_repo:
-                //TODO 收藏
+                if (favoriteFragment==null){
+                    favoriteFragment = new FavoriteFragment();
+                }
+                if (!favoriteFragment.isAdded()){
+                    replaceFragment(favoriteFragment);
+                }
                 break;
             // 每日干货
             case R.id.tips_daily:
