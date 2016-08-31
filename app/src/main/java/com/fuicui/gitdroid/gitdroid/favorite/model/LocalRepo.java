@@ -1,8 +1,18 @@
 package com.fuicui.gitdroid.gitdroid.favorite.model;
 
+import android.content.Context;
+
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * 本地仓库表
@@ -110,5 +120,22 @@ public class LocalRepo {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    private static List<LocalRepo> localRepoList;
+
+    public static List<LocalRepo> getDefaultLocalRepo(Context context){
+        if (localRepoList!=null){
+            return localRepoList;
+        }
+        try {
+            InputStream inputStream = context.getAssets().open("defaultrepos.json");
+            String content = IOUtils.toString(inputStream);
+            Gson gson = new Gson();
+            localRepoList = gson.fromJson(content,new TypeToken<List<LocalRepo>>(){}.getType());
+            return localRepoList;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

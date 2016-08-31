@@ -3,6 +3,7 @@ package com.fuicui.gitdroid.gitdroid.favorite.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.fuicui.gitdroid.gitdroid.favorite.model.LocalRepo;
 import com.fuicui.gitdroid.gitdroid.favorite.model.RepoGroup;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -16,7 +17,7 @@ import java.sql.SQLException;
 public class DBHelp extends OrmLiteSqliteOpenHelper{
 
     private static final String DB_NAME="repo_favorite.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     private static DBHelp dbHelp;
     private Context context;
@@ -39,8 +40,10 @@ public class DBHelp extends OrmLiteSqliteOpenHelper{
         try {
             //创建类别表（单纯的创建出来，里面是空的，没有数据）
             TableUtils.createTableIfNotExists(connectionSource, RepoGroup.class);
+            TableUtils.createTableIfNotExists(connectionSource, LocalRepo.class);
             //将本地的数据填充到数据库表中
             new RepoGroupDao(this).createOrUpdate(RepoGroup.getDefaultGroup(context));
+            new LocalRepoDao(this).createOrUpdate(LocalRepo.getDefaultLocalRepo(context));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -51,6 +54,7 @@ public class DBHelp extends OrmLiteSqliteOpenHelper{
         //对表进行更新---方法：先删除，再创建
         try {
             TableUtils.dropTable(connectionSource,RepoGroup.class,true);
+            TableUtils.dropTable(connectionSource,LocalRepo.class,true);
             onCreate(database,connectionSource);
         } catch (SQLException e) {
             throw new RuntimeException(e);

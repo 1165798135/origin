@@ -12,10 +12,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fuicui.gitdroid.gitdroid.R;
 import com.fuicui.gitdroid.gitdroid.favorite.dao.DBHelp;
+import com.fuicui.gitdroid.gitdroid.favorite.dao.LocalRepoDao;
 import com.fuicui.gitdroid.gitdroid.favorite.dao.RepoGroupDao;
+import com.fuicui.gitdroid.gitdroid.favorite.model.LocalRepo;
 import com.fuicui.gitdroid.gitdroid.favorite.model.RepoGroup;
 
 import java.util.List;
@@ -37,11 +40,13 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
     ListView listView;
 
     private RepoGroupDao repoGroupDao;
+    private LocalRepoDao localRepoDao;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         repoGroupDao = new RepoGroupDao(DBHelp.getInstance(getContext()));
+        localRepoDao = new LocalRepoDao(DBHelp.getInstance(getContext()));
     }
 
     @Nullable
@@ -55,6 +60,8 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+
+        Toast.makeText(getContext(), "本地仓库数据数量："+localRepoDao.queryAll().size(), Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.btnFilter)
