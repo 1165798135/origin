@@ -41,6 +41,7 @@ public class DBHelp extends OrmLiteSqliteOpenHelper{
             //创建类别表（单纯的创建出来，里面是空的，没有数据）
             TableUtils.createTableIfNotExists(connectionSource, RepoGroup.class);
             TableUtils.createTableIfNotExists(connectionSource, LocalRepo.class);
+
             //将本地的数据填充到数据库表中
             new RepoGroupDao(this).createOrUpdate(RepoGroup.getDefaultGroup(context));
             new LocalRepoDao(this).createOrUpdate(LocalRepo.getDefaultLocalRepo(context));

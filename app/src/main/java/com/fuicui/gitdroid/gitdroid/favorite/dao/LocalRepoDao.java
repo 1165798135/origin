@@ -59,7 +59,7 @@ public class LocalRepoDao {
     /**
      * 查询---根据本地仓库的外键（仓库类别表）的id，相应就查到不同类别的仓库信息
      */
-    public List<LocalRepo> queryForId(int groupId){
+    public List<LocalRepo> queryForGroupId(int groupId){
         try {
             return dao.queryForEq(LocalRepo.COLUMN_GROUP_ID,groupId);
         } catch (SQLException e) {

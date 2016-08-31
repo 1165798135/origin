@@ -49,7 +49,7 @@ public class RepoGroupDao {
 
     /**
      * 查询所有的
-     * @return
+     * @return select * from RepoGroup
      */
     public List<RepoGroup> queryForAll(){
         try {

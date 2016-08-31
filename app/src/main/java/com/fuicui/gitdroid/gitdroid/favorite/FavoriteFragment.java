@@ -41,6 +41,8 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
 
     private RepoGroupDao repoGroupDao;
     private LocalRepoDao localRepoDao;
+    private FavoriteAdapter adapter;
+    private int currentRepoGroupId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,8 +62,11 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        adapter = new FavoriteAdapter();
+        listView.setAdapter(adapter);
 
-        Toast.makeText(getContext(), "本地仓库数据数量："+localRepoDao.queryAll().size(), Toast.LENGTH_SHORT).show();
+        //默认显示的是全部的数据
+        setData(R.id.repo_group_all);
     }
 
     @OnClick(R.id.btnFilter)
@@ -92,11 +97,23 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
          * 2.数据改变
          */
         tvGroupType.setText(item.getTitle().toString());
-        setData();
+        //根据我们点击的仓库类别的id去获取不同的类别仓库信息
+        currentRepoGroupId = item.getItemId();
+        setData(currentRepoGroupId);
         return true;
     }
 
-    private void setData() {
-
+    private void setData(int groupId) {
+        switch (groupId){
+            case R.id.repo_group_all:
+                adapter.setData(localRepoDao.queryAll());
+                break;
+            case R.id.repo_group_no:
+                adapter.setData(localRepoDao.queryNoGroup());
+                break;
+            default:
+                adapter.setData(localRepoDao.queryForGroupId(currentRepoGroupId));
+                break;
+        }
     }
 }
