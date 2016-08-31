@@ -27,10 +27,9 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
 /**
- * 1.给ListView设置适配器
+ * 热门开发者
  */
-
-public class HotUserFragment extends Fragment implements HotUserPresenter.HotUserView {
+public class HotUserFragment extends Fragment implements HotUserPresenter.HotUserView{
 
 
     @BindView(R.id.lvRepos)
@@ -59,8 +58,8 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        activityUtils = new ActivityUtils(this);
         presenter = new HotUserPresenter(this);
+        activityUtils = new ActivityUtils(this);
         adapter = new HotUserAdapter();
         lvUsers.setAdapter(adapter);
 
@@ -79,7 +78,6 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
                 }
             }, 200);
         }
-
     }
 
     //加载的基本配置
@@ -127,21 +125,21 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
         ptrClassicFrameLayout.setBackgroundResource(R.color.colorRefresh);
     }
 
-
     /**
-     * 下拉刷新的视图
+     * 刷新的视图改变
+     * @param list
      */
+    @Override
+    public void refreshData(List<User> list) {
+        adapter.clear();
+        adapter.addAll(list);
+    }
+
     @Override
     public void showRefreshView() {
         ptrClassicFrameLayout.setVisibility(View.VISIBLE);
         emptyView.setVisibility(View.GONE);
         errorView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void refreshData(List<User> list) {
-        adapter.clear();
-        adapter.addAll(list);
     }
 
     @Override
@@ -155,22 +153,28 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
     }
 
     @Override
-    public void showErrorView() {
-        ptrClassicFrameLayout.setVisibility(View.GONE);
-        emptyView.setVisibility(View.GONE);
-        errorView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void showEmptyView() {
         ptrClassicFrameLayout.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         errorView.setVisibility(View.GONE);
     }
 
+    @Override
+    public void showErrorView() {
+        ptrClassicFrameLayout.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
+        errorView.setVisibility(View.VISIBLE);
+    }
+
     /**
-     * 主要是上拉加载的视图
+     * 上拉加载的视图实现
+     * @param list
      */
+    @Override
+    public void addLoadData(List<User> list) {
+        adapter.addAll(list);
+    }
+
     @Override
     public void showLoadView() {
         if (lvUsers.getFooterViewsCount()==0){
@@ -182,10 +186,5 @@ public class HotUserFragment extends Fragment implements HotUserPresenter.HotUse
     @Override
     public void hideLoadView() {
         lvUsers.removeFooterView(footerView);
-    }
-
-    @Override
-    public void addLoadData(List<User> list) {
-        adapter.addAll(list);
     }
 }

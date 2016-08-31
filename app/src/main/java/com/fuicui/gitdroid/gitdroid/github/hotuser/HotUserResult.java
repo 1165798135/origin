@@ -42,7 +42,4 @@ public class HotUserResult {
     public void setIncompleteResults(boolean incompleteResults) {
         this.incompleteResults = incompleteResults;
     }
-
-
-
 }
