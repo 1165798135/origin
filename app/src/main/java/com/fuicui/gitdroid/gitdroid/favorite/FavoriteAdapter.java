@@ -60,7 +60,7 @@ public class FavoriteAdapter extends BaseAdapter{
         LocalRepo localRepo = getItem(position);
         viewHolder.tvRepoName.setText(localRepo.getFullName());
         viewHolder.tvRepoInfo.setText(localRepo.getDescription());
-        viewHolder.tvRepoStars.setText(localRepo.getStargazersCount()+"");
+        viewHolder.tvRepoStars.setText("stars："+localRepo.getStargazersCount());
         ImageLoader.getInstance().displayImage(localRepo.getAvatarUrl(),viewHolder.ivIcon);
         return convertView;
     }

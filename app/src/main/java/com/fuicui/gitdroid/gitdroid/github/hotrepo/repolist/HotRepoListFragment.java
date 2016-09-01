@@ -13,6 +13,10 @@ import android.widget.TextView;
 import com.fuicui.gitdroid.gitdroid.R;
 import com.fuicui.gitdroid.gitdroid.commons.ActivityUtils;
 import com.fuicui.gitdroid.gitdroid.components.FooterView;
+import com.fuicui.gitdroid.gitdroid.favorite.dao.DBHelp;
+import com.fuicui.gitdroid.gitdroid.favorite.dao.LocalRepoDao;
+import com.fuicui.gitdroid.gitdroid.favorite.model.LocalRepo;
+import com.fuicui.gitdroid.gitdroid.favorite.model.RepoConverter;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.Language;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.model.Repo;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.repolist.view.RepoListView;
@@ -84,6 +88,25 @@ public class HotRepoListFragment extends Fragment implements RepoListView {
                 //点击某一条跳转到详情页
                 Repo repo = (Repo) adapter.getItem(position);
                 RepoInfoActivity.open(getContext(),repo);
+            }
+        });
+        
+        lvRepos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                /**
+                 * 1.获取到我们长按的ListView的数据
+                 * 2.将数据添加到本地仓库数据库表中
+                 * 3.Dao里面需要传入的是LocalRepo
+                 * 4.Repo  LocalRepo   要做的：将Repo转换为LocalRepo
+                 */
+
+                Repo repo = adapter.getItem(position);
+                LocalRepo localRepo = RepoConverter.convert(repo);
+                new LocalRepoDao(DBHelp.getInstance(getContext())).createOrUpdate(localRepo);
+                activityUtils.showToast("收藏成功");
+                return false;
             }
         });
 

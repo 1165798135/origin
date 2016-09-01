@@ -190,6 +190,6 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
             setData(currentRepoGroupId);
             return true;
         }
-        return super.onContextItemSelected(item);
+        return true;
     }
 }

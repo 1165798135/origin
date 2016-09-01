@@ -43,7 +43,7 @@ public class RepoListAdapter extends BaseAdapter{
         return datas==null?0:datas.size();
     }
 
-    @Override public Object getItem(int position) {
+    @Override public Repo getItem(int position) {
         return datas.get(position);
     }
 
