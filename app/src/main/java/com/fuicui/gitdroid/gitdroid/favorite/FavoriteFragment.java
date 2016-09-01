@@ -3,9 +3,12 @@ package com.fuicui.gitdroid.gitdroid.favorite;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -67,8 +70,12 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
 
         //默认显示的是全部的数据
         setData(R.id.repo_group_all);
+
+        //注册上下文菜单，表明我们的菜单作用到谁的身上--ListView上
+        registerForContextMenu(listView);
     }
 
+    //弹出菜单
     @OnClick(R.id.btnFilter)
     public void showPopupMenu(View view){
         PopupMenu popupMenu = new PopupMenu(getContext(),view);
@@ -115,5 +122,39 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
                 adapter.setData(localRepoDao.queryForGroupId(currentRepoGroupId));
                 break;
         }
+    }
+
+    /**
+     * 上下文菜单  ContextMenu
+     * 1. 表明我们作用到谁的身上----作用到ListView上
+     * 2. 创建出来上下文菜单---移动至，删除
+     * 3. 监听点击的菜单哪一项
+     */
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        //menu 上下文菜单，v 作用到的是v上  ContextMenuInfo  上下文菜单信息
+        if (v.getId()==R.id.listView){
+
+            //将Menu填充到上下文菜单上ContextMenu
+            MenuInflater menuInflater = getActivity().getMenuInflater();
+            menuInflater.inflate(R.menu.menu_context_favorite,menu);
+
+            //将我们数据库类别表里面的类别数据填充到移动至的子菜单里面
+            //得到子菜单
+            SubMenu subMenu = menu.findItem(R.id.sub_menu_move).getSubMenu();
+            List<RepoGroup> repoGroups = repoGroupDao.queryForAll();
+
+            //利用增强for循环去添加子菜单
+            for (RepoGroup repo:repoGroups) {
+                subMenu.add(R.id.menu_group_move,repo.getId(),Menu.NONE,repo.getName());
+            }
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return super.onContextItemSelected(item);
     }
 }
