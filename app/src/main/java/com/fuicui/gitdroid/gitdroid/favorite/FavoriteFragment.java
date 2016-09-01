@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -46,6 +47,7 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
     private LocalRepoDao localRepoDao;
     private FavoriteAdapter adapter;
     private int currentRepoGroupId;
+    private LocalRepo currentLocalRepo;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,6 +138,14 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
         super.onCreateContextMenu(menu, v, menuInfo);
         //menu 上下文菜单，v 作用到的是v上  ContextMenuInfo  上下文菜单信息
         if (v.getId()==R.id.listView){
+            /**
+             * 使用ContextMenuInfo实现类完成我们选择的仓库的获取，
+             * position  利用adapter来获取我们当前作用的仓库
+             */
+            AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            int position = adapterContextMenuInfo.position;
+            //当前操作的本地仓库
+            currentLocalRepo = adapter.getItem(position);
 
             //将Menu填充到上下文菜单上ContextMenu
             MenuInflater menuInflater = getActivity().getMenuInflater();
@@ -155,6 +165,31 @@ public class FavoriteFragment extends Fragment implements PopupMenu.OnMenuItemCl
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //点击的是删除
+        if (id==R.id.delete){
+            //删除作用的仓库
+            localRepoDao.delete(currentLocalRepo);
+            setData(currentRepoGroupId);
+            return true;
+        }
+        int groupId = item.getGroupId();
+        if (groupId==R.id.menu_group_move){
+            //移动的操作--未分类，网络连接。。。。（数据库表里面获得的)
+            if (id==R.id.repo_group_no){
+                //将我们的作用的仓库类别改为未分类，也就是类别为null
+                currentLocalRepo.setRepoGroup(null);
+            }else {
+                //得到我们点击的是哪一个类别，将我们当前的仓库类别改为当前点击的类别
+                RepoGroup repoGroup = repoGroupDao.queryForId(id);
+                currentLocalRepo.setRepoGroup(repoGroup);
+            }
+//            数据库的更新
+            localRepoDao.createOrUpdate(currentLocalRepo);
+            setData(currentRepoGroupId);
+            return true;
+        }
         return super.onContextItemSelected(item);
     }
 }
