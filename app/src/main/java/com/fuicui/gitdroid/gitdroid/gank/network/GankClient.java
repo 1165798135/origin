@@ -1,4 +1,4 @@
-package com.fuicui.gitdroid.gitdroid.gank.model.network;
+package com.fuicui.gitdroid.gitdroid.gank.network;
 
 /**
  * Created by 123 on 2016/9/1.
@@ -6,9 +6,6 @@ package com.fuicui.gitdroid.gitdroid.gank.model.network;
 
 import com.fuicui.gitdroid.gitdroid.commons.LoggingInterceptor;
 import com.fuicui.gitdroid.gitdroid.gank.model.GankResult;
-import com.fuicui.gitdroid.gitdroid.network.GithubApi;
-import com.fuicui.gitdroid.gitdroid.network.GithubClient;
-import com.fuicui.gitdroid.gitdroid.network.TokenInterceptor;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

@@ -1,4 +1,4 @@
-package com.fuicui.gitdroid.gitdroid.gank.model.network;
+package com.fuicui.gitdroid.gitdroid.gank.network;
 
 import com.fuicui.gitdroid.gitdroid.gank.model.GankResult;
 

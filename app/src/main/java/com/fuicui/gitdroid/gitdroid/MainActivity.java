@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.fuicui.gitdroid.gitdroid.commons.ActivityUtils;
 import com.fuicui.gitdroid.gitdroid.favorite.FavoriteFragment;
+import com.fuicui.gitdroid.gitdroid.gank.GankFragment;
 import com.fuicui.gitdroid.gitdroid.github.hotrepo.HotRepoFragment;
 import com.fuicui.gitdroid.gitdroid.github.hotuser.HotUserFragment;
 import com.fuicui.gitdroid.gitdroid.login.LoginActivity;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HotRepoFragment hotRepoFragment;
     private HotUserFragment hotUserFragment;
     private FavoriteFragment favoriteFragment;
+    private GankFragment gankFragment;
+
     private Button btnLogin;
     private ImageView ivIcon;
 
@@ -134,7 +137,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             // 每日干货
             case R.id.tips_daily:
-                //TODO 每日干货
+                if (gankFragment==null){
+                    gankFragment = new GankFragment();
+                }
+                if (!gankFragment.isAdded()){
+                    replaceFragment(gankFragment);
+                }
                 break;
         }
         // 关闭drawerLayout
