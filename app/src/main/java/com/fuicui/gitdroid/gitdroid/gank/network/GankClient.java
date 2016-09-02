@@ -8,6 +8,7 @@ import com.fuicui.gitdroid.gitdroid.commons.LoggingInterceptor;
 import com.fuicui.gitdroid.gitdroid.gank.model.GankResult;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -35,8 +36,11 @@ public class GankClient implements GankApi{
 
     private GankClient(){
 
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new LoggingInterceptor())
+                .addInterceptor(loggingInterceptor)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -51,7 +55,7 @@ public class GankClient implements GankApi{
     }
 
     @Override
-    public Call<GankResult> getDailyData(@Path("yaer") int year, @Path("month") int month, @Path("day") int day) {
+    public Call<GankResult> getDailyData(@Path("year") int year, @Path("month") int month, @Path("day") int day) {
         return gankApi.getDailyData(year, month, day);
     }
 }
